@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<localEntry key="sftp" xmlns="http://ws.apache.org/ns/synapse">
+  <file.init>
+    <connectionType>SFTP</connectionType>
+    <host>2.tcp.ngrok.io</host>
+    <port>14275</port>
+    <username>dev</username>
+    <password>123</password>
+    <encodePassword>false</encodePassword>
+    <userDirIsRoot>false</userDirIsRoot>
+    <workingDir>/home/dev/</workingDir>
+    <strictHostKeyChecking>false</strictHostKeyChecking>
+    <setAvoidPermission>false</setAvoidPermission>
+    <sftpConnectionTimeout>100000</sftpConnectionTimeout>
+    <sftpSessionTimeout>150000</sftpSessionTimeout>
+    <fileLockScheme>Local</fileLockScheme>
+    <name>sftp</name>
+  </file.init>
+</localEntry>

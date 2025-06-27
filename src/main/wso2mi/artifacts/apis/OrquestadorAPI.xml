@@ -1,0 +1,91 @@
+<api name="OrquestadorAPI" statistics="enable" trace="enable" context="/orquestador" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET" uri-template="/consultar">
+        <inSequence>
+
+            <!-- Llamada a API de animales -->
+            <property name="X-Api-Key" scope="transport" type="STRING" value="XRKsS1U9C/FZQpiTROFWsA==lwj84PYzTtsN1WBt"/>
+            <property name="Host" scope="transport" type="STRING" value="api.api-ninjas.com"/>
+            <header name="Content-Type" scope="transport" value="application/json"/>
+            <header name="Accept" scope="transport" value="application/json"/>
+            <call>
+                <endpoint>
+                    <http method="GET" uri-template="https://api.api-ninjas.com/v1/animals?name=cheetah"/>
+                </endpoint>
+            </call>
+            <property name="messageType" value="application/json" scope="axis2"/>
+            <property name="response1" expression="json-eval($.)" scope="default"/>
+
+            <!-- Llamada a API de hobbies -->
+            <property name="X-Api-Key" scope="transport" type="STRING" value="XRKsS1U9C/FZQpiTROFWsA==lwj84PYzTtsN1WBt"/>
+            <property name="Host" scope="transport" type="STRING" value="api.api-ninjas.com"/>
+            <header name="Content-Type" scope="transport" value="application/json"/>
+            <header name="Accept" scope="transport" value="application/json"/>
+            <call>
+                <endpoint>
+                    <http method="GET" uri-template="https://api.api-ninjas.com/v1/hobbies?category=general"/>
+                </endpoint>
+            </call>
+            <property name="messageType" value="application/json" scope="axis2"/>
+            <property name="response2" expression="json-eval($.)" scope="default"/>
+
+            <!-- Generar timestamp y ruta del archivo -->
+            <script language="js"><![CDATA[
+                var now = new Date();
+                var pad = function(n) { return n < 10 ? '0' + n : n; };
+                var timestamp = now.getFullYear() + pad(now.getMonth()+1) + pad(now.getDate()) + "_" +
+                                pad(now.getHours()) + pad(now.getMinutes()) + pad(now.getSeconds());
+                mc.setProperty("nombre_archivo", "resultado_" + timestamp + ".json");
+                mc.setProperty("ruta_completa", "pruebachoreo/" + mc.getProperty("nombre_archivo"));
+            ]]></script>
+
+            <!-- Combinar respuestas como JSON -->
+            <payloadFactory media-type="text">
+                <format>{
+  "respuesta1": $1,
+  "respuesta2": $2
+}</format>
+                <args>
+                    <arg evaluator="json" expression="$ctx:response1"/>
+                    <arg evaluator="json" expression="$ctx:response2"/>
+                </args>
+            </payloadFactory>
+
+            <!-- Forzar el body como texto plano (clave para eliminar formato SOAP) -->
+            <enrich>
+                <source type="inline" clone="true">
+                    <format media-type="text">{$body}</format>
+                </source>
+                <target type="body"/>
+            </enrich>
+
+            <!-- Guardar contenido en propiedad -->
+            <property name="contenido_archivo" expression="$body" scope="default"/>
+
+            <!-- Guardar archivo como JSON plano -->
+            <file.write configKey="sftp">
+                <filePath>{$ctx:ruta_completa}</filePath>
+                <contentOrExpression>{$ctx:contenido_archivo}</contentOrExpression>
+                <writeMode>Overwrite</writeMode>
+                <encoding>UTF-8</encoding>
+                <mimeType>application/json</mimeType>
+                <responseVariable>resultado_salida_sftp</responseVariable>
+                <overwriteBody>true</overwriteBody>
+            </file.write>
+
+            <!-- Confirmación -->
+            <payloadFactory media-type="json">
+                <format>{"mensaje":"Archivo SFTP generado correctamente","archivo":"$1"}</format>
+                <args>
+                    <arg expression="get-property('default','nombre_archivo')"/>
+                </args>
+            </payloadFactory>
+            <respond/>
+
+        </inSequence>
+
+        <outSequence>
+            <log level="full"/>
+            <respond/>
+        </outSequence>
+    </resource>
+</api>

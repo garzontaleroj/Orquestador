@@ -1,0 +1,5 @@
+<connectorExporter>
+   <connector name="sftp">
+      <operation name="putFile"/>
+   </connector>
+</connectorExporter>
