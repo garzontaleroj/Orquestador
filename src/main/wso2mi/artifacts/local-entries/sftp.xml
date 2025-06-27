@@ -2,8 +2,8 @@
 <localEntry key="sftp" xmlns="http://ws.apache.org/ns/synapse">
   <file.init>
     <connectionType>SFTP</connectionType>
-    <host>4.tcp.ngrok.io</host>
-    <port>13449</port>
+    <host>0.tcp.ngrok.io</host>
+    <port>18176</port>
     <username>dev</username>
     <password>123</password>
     <encodePassword>false</encodePassword>
