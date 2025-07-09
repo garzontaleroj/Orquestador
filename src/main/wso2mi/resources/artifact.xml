@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<artifacts>
+  <artifact name="resources_datamapper_soapdatamapper_soapdatamapper_dmc" groupId="com.microintegrator.projects" version="1.0.0" type="registry/resource" serverRole="EnterpriseIntegrator">
+    <item>
+      <file>soapdatamapper.dmc</file>
+      <path>/_system/governance/mi-resources/datamapper/soapdatamapper</path>
+      <mediaType>text/plain</mediaType>
+      <properties></properties>
+    </item>
+  </artifact>
+  <artifact name="resources_datamapper_soapdatamapper_soapdatamapper_inputSchema_json" groupId="com.microintegrator.projects" version="1.0.0" type="registry/resource" serverRole="EnterpriseIntegrator">
+    <item>
+      <file>soapdatamapper_inputSchema.json</file>
+      <path>/_system/governance/mi-resources/datamapper/soapdatamapper</path>
+      <mediaType>text/plain</mediaType>
+      <properties></properties>
+    </item>
+  </artifact>
+  <artifact name="resources_datamapper_soapdatamapper_soapdatamapper_outputSchema_json" groupId="com.microintegrator.projects" version="1.0.0" type="registry/resource" serverRole="EnterpriseIntegrator">
+    <item>
+      <file>soapdatamapper_outputSchema.json</file>
+      <path>/_system/governance/mi-resources/datamapper/soapdatamapper</path>
+      <mediaType>text/plain</mediaType>
+      <properties/>
+    </item>
+  </artifact>
+</artifacts>
