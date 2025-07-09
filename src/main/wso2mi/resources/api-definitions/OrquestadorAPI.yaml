@@ -11,3 +11,8 @@ paths:
       responses:
         default:
           description: Default response
+  /usuarios:
+    get:
+      responses:
+        default:
+          description: Default response

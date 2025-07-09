@@ -41,9 +41,9 @@
             <!-- Combinar respuestas como JSON -->
             <payloadFactory media-type="text">
                 <format>{
-  "respuesta1": $1,
-  "respuesta2": $2
-}</format>
+                    "respuesta1": $1,
+                    "respuesta2": $2
+                    }</format>
                 <args>
                     <arg evaluator="json" expression="$ctx:response1"/>
                     <arg evaluator="json" expression="$ctx:response2"/>
@@ -80,12 +80,185 @@
                 </args>
             </payloadFactory>
             <respond/>
-
         </inSequence>
 
         <outSequence>
             <log level="full"/>
             <respond/>
         </outSequence>
+    </resource>
+    <resource methods="GET" uri-template="/usuarios">
+        <inSequence>
+            <log category="INFO" logMessageID="true" logFullPayload="true">
+                <message>Se muestran los datos de la lista de usuarios</message>
+            </log>
+            <payloadFactory description="se crea la carga util del servicio de lista de usuarios" media-type="json" template-type="default">
+                <format>[
+                    {
+                    "nombre_completo": "Laura Martínez",
+                    "cargo": "Analista de Datos",
+                    "anio_ingreso": 2018,
+                    "salario": 4200000,
+                    "sexo": "F",
+                    "experiencia": 5
+                    },
+                    {
+                    "nombre_completo": "Carlos Rodríguez",
+                    "cargo": "Desarrollador Backend",
+                    "anio_ingreso": 2020,
+                    "salario": 4800000,
+                    "sexo": "M",
+                    "experiencia": 4
+                    },
+                    {
+                    "nombre_completo": "Daniela López",
+                    "cargo": "Diseñadora UX",
+                    "anio_ingreso": 2019,
+                    "salario": 4500000,
+                    "sexo": "F",
+                    "experiencia": 6
+                    },
+                    {
+                    "nombre_completo": "Andrés García",
+                    "cargo": "Gerente de Proyectos",
+                    "anio_ingreso": 2015,
+                    "salario": 7200000,
+                    "sexo": "M",
+                    "experiencia": 10
+                    },
+                    {
+                    "nombre_completo": "Valentina Torres",
+                    "cargo": "QA Tester",
+                    "anio_ingreso": 2021,
+                    "salario": 3900000,
+                    "sexo": "F",
+                    "experiencia": 3
+                    },
+                    {
+                    "nombre_completo": "Miguel Ángel Pérez",
+                    "cargo": "Administrador de Redes",
+                    "anio_ingreso": 2017,
+                    "salario": 4600000,
+                    "sexo": "M",
+                    "experiencia": 7
+                    },
+                    {
+                    "nombre_completo": "Camila Rincón",
+                    "cargo": "Analista Financiera",
+                    "anio_ingreso": 2016,
+                    "salario": 5300000,
+                    "sexo": "F",
+                    "experiencia": 8
+                    },
+                    {
+                    "nombre_completo": "Julián Mendoza",
+                    "cargo": "Arquitecto de Software",
+                    "anio_ingreso": 2014,
+                    "salario": 8500000,
+                    "sexo": "M",
+                    "experiencia": 12
+                    },
+                    {
+                    "nombre_completo": "Paola Jiménez",
+                    "cargo": "Ingeniera de Sistemas",
+                    "anio_ingreso": 2022,
+                    "salario": 4000000,
+                    "sexo": "F",
+                    "experiencia": 2
+                    },
+                    {
+                    "nombre_completo": "Sebastián Ramírez",
+                    "cargo": "Soporte Técnico",
+                    "anio_ingreso": 2019,
+                    "salario": 3600000,
+                    "sexo": "M",
+                    "experiencia": 5
+                    },
+                    {
+                    "nombre_completo": "Natalia Cruz",
+                    "cargo": "Líder de Innovación",
+                    "anio_ingreso": 2013,
+                    "salario": 7900000,
+                    "sexo": "F",
+                    "experiencia": 11
+                    },
+                    {
+                    "nombre_completo": "Tomás Herrera",
+                    "cargo": "Desarrollador Frontend",
+                    "anio_ingreso": 2020,
+                    "salario": 4700000,
+                    "sexo": "M",
+                    "experiencia": 4
+                    },
+                    {
+                    "nombre_completo": "Mariana Suárez",
+                    "cargo": "Scrum Master",
+                    "anio_ingreso": 2018,
+                    "salario": 6100000,
+                    "sexo": "F",
+                    "experiencia": 7
+                    },
+                    {
+                    "nombre_completo": "Felipe Castaño",
+                    "cargo": "Técnico de Soporte",
+                    "anio_ingreso": 2021,
+                    "salario": 3500000,
+                    "sexo": "M",
+                    "experiencia": 3
+                    },
+                    {
+                    "nombre_completo": "Isabela Moreno",
+                    "cargo": "Especialista en Ciberseguridad",
+                    "anio_ingreso": 2017,
+                    "salario": 6800000,
+                    "sexo": "F",
+                    "experiencia": 8
+                    },
+                    {
+                    "nombre_completo": "Diego Salazar",
+                    "cargo": "Analista BI",
+                    "anio_ingreso": 2016,
+                    "salario": 5400000,
+                    "sexo": "M",
+                    "experiencia": 9
+                    },
+                    {
+                    "nombre_completo": "Karina Velásquez",
+                    "cargo": "Ingeniera DevOps",
+                    "anio_ingreso": 2023,
+                    "salario": 5500000,
+                    "sexo": "F",
+                    "experiencia": 2
+                    },
+                    {
+                    "nombre_completo": "Juan Pablo León",
+                    "cargo": "Consultor SAP",
+                    "anio_ingreso": 2012,
+                    "salario": 9000000,
+                    "sexo": "M",
+                    "experiencia": 13
+                    },
+                    {
+                    "nombre_completo": "Alejandra Quintero",
+                    "cargo": "Product Owner",
+                    "anio_ingreso": 2015,
+                    "salario": 7000000,
+                    "sexo": "F",
+                    "experiencia": 10
+                    },
+                    {
+                    "nombre_completo": "Santiago Mejía",
+                    "cargo": "Técnico Electrónico",
+                    "anio_ingreso": 2020,
+                    "salario": 3800000,
+                    "sexo": "M",
+                    "experiencia": 4
+                    }
+                    ]</format>
+            </payloadFactory>
+            <respond description="se responde al cliente"/>
+        </inSequence>
+        <faultSequence>
+        </faultSequence>
     </resource>
 </api>
