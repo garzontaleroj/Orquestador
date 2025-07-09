@@ -27,7 +27,8 @@
             </call>
             <property name="messageType" value="application/json" scope="axis2"/>
             <property name="response2" expression="json-eval($.)" scope="default"/>
-
+            <property name="ruta_completa_1" scope="default" type="STRING" value="pruebachoreo1/"/>
+            <property name="ruta_completa_2" scope="default" type="STRING" value="pruebachoreo2/"/>
             <!-- Generar timestamp y ruta del archivo -->
             <script language="js"><![CDATA[
                 var now = new Date();
@@ -35,7 +36,8 @@
                 var timestamp = now.getFullYear() + pad(now.getMonth()+1) + pad(now.getDate()) + "_" +
                                 pad(now.getHours()) + pad(now.getMinutes()) + pad(now.getSeconds());
                 mc.setProperty("nombre_archivo", "resultado_" + timestamp + ".json");
-                mc.setProperty("ruta_completa", "pruebachoreo/" + mc.getProperty("nombre_archivo"));
+                mc.setProperty("ruta_completa_1", mc.getProperty("ruta_completa_1") + mc.getProperty("nombre_archivo"));
+                mc.setProperty("ruta_completa_2", mc.getProperty("ruta_completa_2") + mc.getProperty("nombre_archivo"));
             ]]></script>
 
             <!-- Combinar respuestas como JSON -->
@@ -61,24 +63,51 @@
             <!-- Guardar contenido en propiedad -->
             <property name="contenido_archivo" expression="$body" scope="default"/>
 
-            <!-- Guardar archivo como JSON plano -->
-            <file.write configKey="sftp">
-                <filePath>{$ctx:ruta_completa}</filePath>
-                <contentOrExpression>{$ctx:contenido_archivo}</contentOrExpression>
-                <writeMode>Overwrite</writeMode>
-                <encoding>UTF-8</encoding>
-                <mimeType>application/json</mimeType>
-                <responseVariable>resultado_salida_sftp</responseVariable>
-                <overwriteBody>true</overwriteBody>
-            </file.write>
+            <filter xpath="json-eval($.respuesta2.category) = 'general'">
+                <then>
+                    <!-- Guardar archivo como JSON plano -->
+                    <file.write configKey="sftp_1">
+                        <filePath>{$ctx:ruta_completa_1}</filePath>
+                        <contentOrExpression>{$ctx:contenido_archivo}</contentOrExpression>
+                        <writeMode>Overwrite</writeMode>
+                        <encoding>UTF-8</encoding>
+                        <mimeType>application/json</mimeType>
+                        <responseVariable>resultado_salida_sftp</responseVariable>
+                        <overwriteBody>true</overwriteBody>
+                    </file.write>
 
-            <!-- Confirmación -->
-            <payloadFactory media-type="json">
-                <format>{"mensaje":"Archivo SFTP generado correctamente","archivo":"$1"}</format>
-                <args>
-                    <arg expression="get-property('default','nombre_archivo')"/>
-                </args>
-            </payloadFactory>
+                    <!-- Confirmación -->
+                    <payloadFactory media-type="json">
+                        <format>{"mensaje":"Archivo SFTP generado correctamente a # ftp 1","archivo":"$1"}</format>
+                        <args>
+                            <arg expression="get-property('default','nombre_archivo')"/>
+                        </args>
+                    </payloadFactory>
+                    <respond/>
+                </then>
+                <else>
+
+                    <!-- Guardar archivo como JSON plano -->
+                    <file.write configKey="sftp_2">
+                        <filePath>{$ctx:ruta_completa_2}</filePath>
+                        <contentOrExpression>{$ctx:contenido_archivo}</contentOrExpression>
+                        <writeMode>Overwrite</writeMode>
+                        <encoding>UTF-8</encoding>
+                        <mimeType>application/json</mimeType>
+                        <responseVariable>resultado_salida_sftp</responseVariable>
+                        <overwriteBody>true</overwriteBody>
+                    </file.write>
+
+                     <payloadFactory media-type="json">
+                        <format>{"mensaje":"Archivo SFTP generado correctamente a ftp #2","archivo":"$1"}</format>
+                        <args>
+                            <arg expression="get-property('default','nombre_archivo')"/>
+                        </args>
+                    </payloadFactory>
+                    <respond/>
+                </else>
+            </filter>
+            
             <respond/>
         </inSequence>
 

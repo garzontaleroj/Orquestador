@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<localEntry key="sftp_1" xmlns="http://ws.apache.org/ns/synapse">
+<localEntry key="sftp_2" xmlns="http://ws.apache.org/ns/synapse">
   <file.init>
     <connectionType>SFTP</connectionType>
     <host>8.tcp.ngrok.io</host>
@@ -8,12 +8,12 @@
     <password>123</password>
     <encodePassword>false</encodePassword>
     <userDirIsRoot>false</userDirIsRoot>
-    <workingDir>/home/dev/</workingDir>
+    <workingDir>/</workingDir>
     <strictHostKeyChecking>false</strictHostKeyChecking>
     <setAvoidPermission>false</setAvoidPermission>
     <sftpConnectionTimeout>100000</sftpConnectionTimeout>
     <sftpSessionTimeout>150000</sftpSessionTimeout>
     <fileLockScheme>Local</fileLockScheme>
-    <name>sftp_1</name>
+    <name>sftp_2</name>
   </file.init>
 </localEntry>
